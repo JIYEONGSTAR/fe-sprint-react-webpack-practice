@@ -1,9 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
-  mode: "development",
+  target: ["web", "es5"],
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"), // './dist'의 절대 경로를 리턴합니다.
@@ -25,15 +27,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
         exclude: /node_modules/,
-      },
-      {
-        test: /\.jfif$/,
-        loader: "file-loader",
-        options: {
-          name: "[name].[ext]",
-        },
       },
     ],
   },
@@ -42,8 +37,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public", "index.html"),
     }),
+    new MiniCssExtractPlugin(),
   ],
-  externals: {
-    react: "React",
+  optimization: {
+    minimizer: [new CssMinimizerPlugin()],
   },
+  // externals: {
+  //   react: "React",
+  // }, //이게 문제였다.
 };
