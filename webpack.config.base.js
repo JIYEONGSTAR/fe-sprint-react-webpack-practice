@@ -8,8 +8,9 @@ module.exports = {
   target: ["web", "es5"],
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "dist"), // './dist'의 절대 경로를 리턴합니다.
-    filename: "app.bundle.js",
+    path: path.resolve(__dirname, "docs"), // './dist'의 절대 경로를 리턴합니다.
+    filename: "[fullhash].bundle.js", //output이 동적으로 변하게
+    clean: true, //번들링 할 때마다 폴더 정리
   },
   resolve: {
     //resolve : 웹팩이 모듈을 처리하는 방식 정의하는 것으로 확장자를 생략하고도 인식하게 만든다.
